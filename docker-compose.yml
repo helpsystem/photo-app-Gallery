@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  ram-gallery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ram-gallery
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    volumes:
+      - ./data:/app/data
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ram-gallery.rule=Host(`ram.samanabyar.online`)"
+      - "traefik.http.routers.ram-gallery.entrypoints=websecure"
+      - "traefik.http.routers.ram-gallery.tls.certresolver=letsencrypt"
+      - "traefik.http.services.ram-gallery.loadbalancer.server.port=3000"
+
+networks:
+  web:
+    external: true

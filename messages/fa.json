@@ -1,0 +1,65 @@
+{
+  "nav": {
+    "home": "خانه",
+    "gallery": "گالری",
+    "upload": "آپلود"
+  },
+  "hero": {
+    "title": "طراحی‌های خانواده رام",
+    "subtitle": "هدایای سفارشی و دقیق",
+    "description": "اقلام منحصر به فرد و شخصی‌سازی شده با دقت معماری. از حکاکی‌های لیزری سفارشی تا لوازم چرمی دست‌ساز، ما ایده‌های شما را زنده می‌کنیم.",
+    "explore": "مشاهده محصولات",
+    "scroll": "برای مشاهده اسکرول کنید",
+    "featured": "آثار برتر"
+  },
+  "gallery": {
+    "title": "محصولات ما",
+    "description": "مجموعه‌ای از هدایا و لوازم جانبی سفارشی",
+    "search": "جستجوی محصولات...",
+    "noResults": "محصولی یافت نشد. لطفاً فیلترها را تغییر دهید.",
+    "categories": {
+      "all": "همه",
+      "photography": "جاکلیدی",
+      "painting": "بند گردنی",
+      "digitalArt": "کارهای چوبی",
+      "portrait": "هنر لیزری",
+      "landscape": "هدایای سفارشی",
+      "abstract": "معماری"
+    }
+  },
+  "admin": {
+    "title": "پنل مدیریت",
+    "description": "آپلود و مدیریت آثار هنری گالری",
+    "dragDrop": "فایل‌ها را اینجا بکشید و رها کنید",
+    "dragDropActive": "فایل‌ها را اینجا رها کنید",
+    "clickToSelect": "یا کلیک کنید تا فایل انتخاب کنید (PNG, JPG, GIF, WEBP حداکثر 10MB)",
+    "selectedFiles": "فایل‌های انتخاب شده",
+    "titleLabel": "عنوان (اختیاری)",
+    "titlePlaceholder": "عنوان برای همه آثار",
+    "descriptionLabel": "توضیحات (اختیاری)",
+    "descriptionPlaceholder": "توضیحات برای همه آثار",
+    "categoryLabel": "دسته‌بندی",
+    "upload": "آپلود",
+    "uploading": "در حال آپلود...",
+    "uploadCount": "اثر",
+    "uploadCountPlural": "اثر",
+    "noFileError": "لطفاً حداقل یک فایل انتخاب کنید",
+    "uploadSuccess": "با موفقیت آپلود شد!",
+    "uploadError": "آپلود ناموفق بود:",
+    "uploadFailed": "خطا در آپلود:"
+  },
+  "auth": {
+    "login": "ورود به پنل مدیریت",
+    "email": "ایمیل",
+    "password": "رمز عبور",
+    "signIn": "ورود",
+    "signingIn": "در حال ورود...",
+    "loginSuccess": "ورود موفقیت‌آمیز بود!",
+    "loginFailed": "ورود ناموفق بود",
+    "demo": "از اطلاعات کاربری Supabase خود استفاده کنید"
+  },
+  "common": {
+    "download": "دانلود",
+    "share": "اشتراک‌گذاری"
+  }
+}

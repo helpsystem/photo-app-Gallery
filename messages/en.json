@@ -1,0 +1,65 @@
+{
+  "nav": {
+    "home": "Home",
+    "gallery": "Gallery",
+    "upload": "Upload"
+  },
+  "hero": {
+    "title": "RamFamilyDesigns",
+    "subtitle": "Precision Crafted Gifts",
+    "description": "Unique, personalized items crafted with architectural precision. From custom laser engravings to handmade leather accessories, we bring your ideas to life.",
+    "explore": "View Products",
+    "scroll": "Scroll to Explore",
+    "featured": "Featured Creations"
+  },
+  "gallery": {
+    "title": "Our Products",
+    "description": "A collection of custom-made gifts and accessories",
+    "search": "Search products...",
+    "noResults": "No products found. Try adjusting your filters.",
+    "categories": {
+      "all": "All",
+      "photography": "Keychains",
+      "painting": "Lanyards",
+      "digitalArt": "Woodwork",
+      "portrait": "Laser Art",
+      "landscape": "Custom Gifts",
+      "abstract": "Architectural"
+    }
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "description": "Upload and manage gallery artworks",
+    "dragDrop": "Drag & drop files here",
+    "dragDropActive": "Drop files here",
+    "clickToSelect": "or click to select files (PNG, JPG, GIF, WEBP up to 10MB)",
+    "selectedFiles": "Selected Files",
+    "titleLabel": "Title (optional)",
+    "titlePlaceholder": "Title for all artworks",
+    "descriptionLabel": "Description (optional)",
+    "descriptionPlaceholder": "Description for all artworks",
+    "categoryLabel": "Category",
+    "upload": "Upload",
+    "uploading": "Uploading...",
+    "uploadCount": "artwork",
+    "uploadCountPlural": "artworks",
+    "noFileError": "Please select at least one file",
+    "uploadSuccess": "uploaded successfully!",
+    "uploadError": "Upload failed:",
+    "uploadFailed": "Upload error:"
+  },
+  "auth": {
+    "login": "Admin Login",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "loginSuccess": "Login successful!",
+    "loginFailed": "Login failed",
+    "demo": "Use your Supabase admin credentials"
+  },
+  "common": {
+    "download": "Download",
+    "share": "Share"
+  }
+}

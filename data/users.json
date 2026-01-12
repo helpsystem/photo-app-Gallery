@@ -1,0 +1,9 @@
+[
+    {
+        "id": "admin-1",
+        "email": "ramfamilydesigns@gmail.com",
+        "password": "RamFamily2026!",
+        "name": "Super Admin",
+        "role": "admin"
+    }
+]

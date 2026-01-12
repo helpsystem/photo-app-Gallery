@@ -1,0 +1,46 @@
+{
+    "home": {
+        "hero": {
+            "title": "RAM FINE ART",
+            "subtitle": "A Digital Gallery of Oil Paintings, Colored Pencil Masterpieces, and Expressive Sketches.",
+            "description": "Experience the world through the strokes of our brushes and the precision of our pencils."
+        },
+        "grid": {
+            "item1": {
+                "title": "Oil Paintings",
+                "desc": "Rich textures and vibrant colors on canvas.",
+                "image": "https://images.unsplash.com/photo-1578301978693-85e6c0f67e66?w=800&q=80"
+            },
+            "item2": {
+                "title": "Colored Pencil",
+                "desc": "Hyper-realistic detail and soft layering.",
+                "image": "https://images.unsplash.com/photo-1628147690326-0e9e98436cd9?w=800&q=80"
+            },
+            "item3": {
+                "title": "Charcoal & Sketch",
+                "desc": "The raw beauty of monochrome shadows.",
+                "image": "https://images.unsplash.com/photo-1596796929671-55060b21319c?w=800&q=80"
+            },
+            "item4": {
+                "title": "Watercolor Collection",
+                "desc": "Fluid landscapes and dreamy abstractions.",
+                "image": "https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=1200&q=80"
+            }
+        }
+    },
+    "about": {
+        "story": "We are a collective of Iranian artists passionate about the traditional and modern arts of painting. From the deep, emotive layers of oil painting to the delicate precision of colored pencils, our work is a celebration of visual storytelling. Our gallery showcases a journey through color, light, and texture, preserving the soul of Persian artistry while embracing contemporary techniques.",
+        "craft": "Each piece in our collection is a labor of love. We specialize in various mediums including Oil on Canvas, Colored Pencil Realism, Watercolor, and Charcoal Sketching. Our process respects the drying times of oils, the layering of pencils, and the spontaneity of watercolors, resulting in unique, one-of-a-kind artworks.",
+        "images": [
+            "/assets/about/fam1.jpg",
+            "/assets/about/fam2.jpg",
+            "/assets/about/fam3.png",
+            "/assets/about/fam5.jpg"
+        ]
+    },
+    "contact": {
+        "phone": "+1 (555) 123-4567",
+        "email": "ramfamilydesigns@gmail.com",
+        "instagram": "@RamFamilyArt"
+    }
+}

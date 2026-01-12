@@ -1,0 +1,65 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "gallery": "Galería",
+    "upload": "Subir"
+  },
+  "hero": {
+    "title": "Galería de Arte",
+    "subtitle": "Fotografía y Pintura",
+    "description": "Una colección de las mejores obras de fotografía y pintura. Cada imagen cuenta una historia, cada pintura transmite emoción. Impulsado por IA, creado con amor.",
+    "explore": "Explorar Galería",
+    "scroll": "Desplázate para explorar",
+    "featured": "Destacados"
+  },
+  "gallery": {
+    "title": "Galería de Arte",
+    "description": "Una colección curada de obras de fotografía y pintura",
+    "search": "Buscar por etiquetas, título o descripción...",
+    "noResults": "No se encontraron obras. Intenta ajustar tus filtros.",
+    "categories": {
+      "all": "Todos",
+      "photography": "Fotografía",
+      "painting": "Pintura",
+      "digitalArt": "Arte Digital",
+      "portrait": "Retrato",
+      "landscape": "Paisaje",
+      "abstract": "Abstracto"
+    }
+  },
+  "admin": {
+    "title": "Panel de Administración",
+    "description": "Subir y gestionar obras de la galería",
+    "dragDrop": "Arrastra y suelta archivos aquí",
+    "dragDropActive": "Suelta los archivos aquí",
+    "clickToSelect": "o haz clic para seleccionar archivos (PNG, JPG, GIF, WEBP hasta 10MB)",
+    "selectedFiles": "Archivos Seleccionados",
+    "titleLabel": "Título (opcional)",
+    "titlePlaceholder": "Título para todas las obras",
+    "descriptionLabel": "Descripción (opcional)",
+    "descriptionPlaceholder": "Descripción para todas las obras",
+    "categoryLabel": "Categoría",
+    "upload": "Subir",
+    "uploading": "Subiendo...",
+    "uploadCount": "obra",
+    "uploadCountPlural": "obras",
+    "noFileError": "Por favor selecciona al menos un archivo",
+    "uploadSuccess": "¡subido exitosamente!",
+    "uploadError": "Error al subir:",
+    "uploadFailed": "Error de carga:"
+  },
+  "auth": {
+    "login": "Inicio de Sesión de Administrador",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "signIn": "Iniciar Sesión",
+    "signingIn": "Iniciando sesión...",
+    "loginSuccess": "¡Inicio de sesión exitoso!",
+    "loginFailed": "Error al iniciar sesión",
+    "demo": "Usa tus credenciales de administrador de Supabase"
+  },
+  "common": {
+    "download": "Descargar",
+    "share": "Compartir"
+  }
+}
