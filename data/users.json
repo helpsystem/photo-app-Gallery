@@ -4,6 +4,11 @@
         "email": "ramfamilydesigns@gmail.com",
         "password": "RamFamily2026!",
         "name": "Super Admin",
-        "role": "admin"
+        "role": "admin",
+        "roles": ["super_admin"],
+        "permissions": [],
+        "disabled": false,
+        "createdAt": "2025-01-01T00:00:00.000Z",
+        "updatedAt": "2025-01-01T00:00:00.000Z"
     }
 ]

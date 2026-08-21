@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Shebaco Invoice & Product Manager</title>
+  <base href="/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Lato:wght@400;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoVBL5gI9kLmbG0CbnwFDEr4XjGiWg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-bg {
+      background: linear-gradient(135deg, #020617, #0f172a, #132a4a);
+    }
+    .glass-card {
+      background: rgba(30, 41, 59, 0.5); /* bg-slate-800/50 */
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Screen-only styles for invoice preview */
+    .invoice-preview-container {
+        /* This container handles the scrolling */
+        transform: scale(1); /* Establish a containing block */
+    }
+    .invoice-preview-container .paper-a4 {
+      width: 210mm;
+      min-height: 297mm; /* Use min-height to allow content to grow */
+    }
+    .invoice-preview-container .paper-letter {
+      width: 8.5in;
+      min-height: 11in; /* Use min-height to allow content to grow */
+    }
+    .invoice-preview-container .paper-a4,
+    .invoice-preview-container .paper-letter {
+        margin: 0 auto; /* Center the paper */
+    }
+
+    @media print {
+      @page {
+        margin: 0;
+      }
+      body {
+        margin: 0;
+      }
+      body * {
+        visibility: hidden;
+      }
+      #invoice-print-area, #invoice-print-area * {
+        visibility: visible;
+      }
+      #invoice-print-area {
+        position: static; /* Let it flow in the document for pagination */
+      }
+      .paper-a4, .paper-letter {
+        width: 100%;
+        height: auto; /* CRITICAL: Allow content to flow to multiple pages */
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+        transform: none;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .page-break-before {
+        page-break-before: always;
+      }
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "rxjs": "https://esm.sh/rxjs@^7.8.2?conditions=es2015",
+    "rxjs/operators": "https://esm.sh/rxjs@^7.8.2/operators?conditions=es2015",
+    "rxjs/ajax": "https://esm.sh/rxjs@^7.8.2/ajax?conditions=es2015",
+    "rxjs/webSocket": "https://esm.sh/rxjs@^7.8.2/webSocket?conditions=es2015",
+    "rxjs/testing": "https://esm.sh/rxjs@^7.8.2/testing?conditions=es2015",
+    "rxjs/fetch": "https://esm.sh/rxjs@^7.8.2/fetch?conditions=es2015",
+    "@google/genai": "https://esm.sh/@google/genai@^1.41.0?external=rxjs",
+    "@angular/platform-browser": "https://esm.sh/@angular/platform-browser@^21.1.4?external=rxjs",
+    "@angular/common": "https://esm.sh/@angular/common@^21.1.4?external=rxjs",
+    "@angular/common/http": "https://esm.sh/@angular/common@^21.1.4/http?external=rxjs",
+    "@angular/core": "https://esm.sh/@angular/core@^21.1.4?external=rxjs",
+    "@angular/compiler": "https://esm.sh/@angular/compiler@^21.1.4?external=rxjs",
+    "@angular/router": "https://esm.sh/@angular/router@^21.1.4?external=rxjs",
+    "@angular/forms": "https://esm.sh/@angular/forms@^21.1.4?external=rxjs"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="gradient-bg text-slate-200">
+  <app-root></app-root>
+</body>
+</html>

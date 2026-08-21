@@ -1,0 +1,133 @@
+
+<div class="flex h-[calc(100vh-3.5rem)]">
+  <!-- Left Panel: Assets & Tools -->
+  <div class="w-80 bg-slate-900/30 border-r border-white/10 p-4 flex flex-col">
+    <h2 class="text-xl font-bold text-white mb-4 flex-shrink-0">Assets & Tools</h2>
+    <div class="flex-grow overflow-y-auto space-y-4 pr-2 -mr-2">
+      
+      <!-- Text Elements -->
+      <div class="glass-card rounded-xl p-3">
+        <h3 class="text-sm font-semibold text-white mb-2">Text</h3>
+        <div class="space-y-2">
+          <button (click)="addElement('text', 'Headline Text')" class="w-full text-left p-2 rounded-md bg-slate-800/50 hover:bg-slate-700/50">Add Headline</button>
+          <button (click)="addElement('text', 'Subheading text')" class="w-full text-left p-2 rounded-md bg-slate-800/50 hover:bg-slate-700/50">Add Subheading</button>
+          <button (click)="addElement('text', 'Some body text for your flyer design.')" class="w-full text-left p-2 rounded-md bg-slate-800/50 hover:bg-slate-700/50">Add Body Text</button>
+        </div>
+      </div>
+      
+      <!-- Products -->
+      <div class="glass-card rounded-xl p-3">
+        <h3 class="text-sm font-semibold text-white mb-2">Products</h3>
+        <div class="space-y-2 max-h-48 overflow-y-auto">
+          @for(product of products(); track product.id) {
+            <div (click)="addElement('product', product)" class="w-full text-left p-2 rounded-md bg-slate-800/50 hover:bg-slate-700/50 cursor-pointer">
+              <p class="text-sm font-medium">{{ product.name }}</p>
+              <p class="text-xs text-slate-400">{{ product.category }}</p>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- AI Image Generator -->
+      <div class="glass-card rounded-xl p-3">
+        <h3 class="text-sm font-semibold text-white mb-2"><span class="text-purple-400">Gemini</span> Image Generator</h3>
+        <div class="space-y-2">
+           <textarea [value]="imageGenPrompt()" (input)="imageGenPrompt.set($event.target.value)" placeholder="Enter image prompt..." rows="3" class="w-full bg-slate-900/70 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+           <button (click)="generateImage()" [disabled]="imageGenLoading()" class="w-full p-2 rounded-md bg-purple-500/30 hover:bg-purple-500/50 text-purple-300 font-semibold disabled:opacity-50">
+             {{ imageGenLoading() ? 'Generating...' : 'Generate Image' }}
+           </button>
+        </div>
+         @if(imageGenLoading()) {
+            <div class="mt-2 aspect-square w-full bg-slate-800/50 rounded-md animate-pulse"></div>
+         }
+         @if(generatedImages().length > 0) {
+            <div class="mt-2 grid grid-cols-2 gap-2">
+                @for(image of generatedImages(); track $index) {
+                    <img [src]="image" (click)="addImageElement(image.split(',')[1])" class="aspect-square w-full rounded-md object-cover cursor-pointer hover:ring-2 ring-purple-500"/>
+                }
+            </div>
+         }
+      </div>
+    </div>
+  </div>
+
+  <!-- Center Panel: Canvas -->
+  <div class="flex-grow flex flex-col p-6">
+    <div class="flex-shrink-0 flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold text-white">Flyer Canvas</h2>
+        <div class="flex items-center gap-2">
+            <button (click)="clearCanvas()" class="bg-red-500/20 text-red-300 px-3 py-1.5 rounded-lg text-xs font-semibold border border-red-500/30 hover:bg-red-500/40">Clear</button>
+            <button class="bg-cyan-500/20 text-cyan-300 px-3 py-1.5 rounded-lg text-xs font-semibold border border-cyan-500/30 hover:bg-cyan-500/40">Download PNG</button>
+        </div>
+    </div>
+    <div class="flex-grow bg-slate-900/30 rounded-xl glass-card flex items-center justify-center p-4">
+        <div class="w-full h-full bg-white relative overflow-hidden shadow-lg" style="aspect-ratio: 8.5 / 11;">
+            <!-- Render Flyer Elements -->
+            @for(element of flyerElements(); track element.id) {
+                <div (click)="selectElement(element)" [class]="'absolute cursor-pointer ' + (selectedElement()?.id === element.id ? 'ring-2 ring-cyan-400' : 'hover:ring-2 ring-cyan-400/50')" [style.left.px]="element.x" [style.top.px]="element.y" [style.width.px]="element.width" [style.height.px]="element.height" [style.opacity]="element.style.opacity">
+                    @switch(element.type) {
+                        @case('text') {
+                            <div class="w-full h-full text-black" [style.font-size.px]="element.style.fontSize" [style.font-weight]="element.style.fontWeight" [style.color]="element.style.color">
+                                {{ element.content }}
+                            </div>
+                        }
+                        @case('image') {
+                            <img [src]="element.content" class="w-full h-full object-cover"/>
+                        }
+                        @case('product') {
+                            <div class="w-full h-full bg-slate-100 p-2 rounded-md border border-slate-200 text-black flex flex-col justify-center items-center">
+                                <p class="font-bold text-center text-xs">{{ $any(element.content).name }}</p>
+                                <p class="text-slate-600 text-center text-xs">{{ $any(element.content).pricingTiers[0].price | currency }}</p>
+                            </div>
+                        }
+                    }
+                </div>
+            }
+            @if(flyerElements().length === 0) {
+                <div class="text-slate-400 text-center p-8">Click items on the left to add them to your flyer.</div>
+            }
+        </div>
+    </div>
+  </div>
+
+  <!-- Right Panel: Properties Inspector -->
+  <div class="w-80 bg-slate-900/30 border-l border-white/10 p-4">
+    <h2 class="text-xl font-bold text-white mb-4">Properties</h2>
+     <div class="space-y-4">
+        @if(selectedElement(); as element) {
+            <div class="glass-card rounded-xl p-3" [formGroup]="propertiesForm">
+                <h3 class="text-sm font-semibold text-white mb-2">Edit {{element.type}}</h3>
+                 @if(element.type === 'text') {
+                    <div class="space-y-3">
+                         <div>
+                            <label class="text-xs text-slate-400 block mb-1">Font Size</label>
+                            <input formControlName="fontSize" type="number" class="w-full bg-slate-800/70 p-2 rounded-md text-sm border-slate-700">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 block mb-1">Font Weight</label>
+                            <select formControlName="fontWeight" class="w-full bg-slate-800/70 p-2 rounded-md text-sm border-slate-700">
+                                <option value="normal">Normal</option>
+                                <option value="bold">Bold</option>
+                            </select>
+                        </div>
+                         <div>
+                            <label class="text-xs text-slate-400 block mb-1">Color</label>
+                            <input formControlName="color" type="color" class="w-full bg-slate-800/70 h-10 p-1 rounded-md border-slate-700">
+                        </div>
+                    </div>
+                 }
+                 @if(element.type === 'image') {
+                     <div>
+                        <label class="text-xs text-slate-400 block mb-1">Opacity</label>
+                        <input formControlName="opacity" type="range" min="0" max="1" step="0.1" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+                    </div>
+                 }
+            </div>
+        } @else {
+            <div class="text-center text-sm text-slate-500 py-8">
+                Select an element on the canvas to see its properties.
+            </div>
+        }
+     </div>
+  </div>
+</div>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { FloatingDock } from '@/components/ui/floating-dock';
-import { Home, Image as ImageIcon, UploadCloud, User, Phone, Settings } from 'lucide-react';
+import { Home, Image as ImageIcon, UploadCloud, User, Phone, Settings, FileText } from 'lucide-react';
 
 export function FloatingNav() {
   const links = [
@@ -19,6 +19,13 @@ export function FloatingNav() {
         <ImageIcon className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
       href: '/archive',
+    },
+    {
+      title: 'Invoice',
+      icon: (
+        <FileText className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+      ),
+      href: '/invoice',
     },
     {
       title: 'About',

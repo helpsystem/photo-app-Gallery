@@ -1,0 +1,123 @@
+
+<div class="bg-white text-slate-800 p-8 rounded-lg shadow-lg print:shadow-none print:rounded-none" [style.font-family]="fontFamily()">
+  <!-- Invoice Header -->
+  <div class="flex justify-between items-start pb-6 border-b border-slate-200">
+    <div>
+      <img [src]="logoUrl()" alt="Company Logo" class="mb-2 print:h-10 object-contain" [style.height.px]="logoSize()">
+      <h2 class="text-2xl font-bold text-slate-900" [style.color]="accentColor()">Invoice</h2>
+      <p class="text-slate-500">Invoice #: INV-2024-001</p>
+      <p class="text-slate-500">Date: {{ currentDate | date:'longDate' }}</p>
+    </div>
+    <div class="text-right">
+      <h3 class="font-bold text-lg" [style.color]="accentColor()">{{ companyInfo().name }}</h3>
+      <p class="text-slate-600 text-sm">Art, Tech & Creative Solutions</p>
+      <p class="text-slate-600 text-sm">{{ companyInfo().email }}</p>
+      <p class="text-slate-600 text-sm">{{ companyInfo().phone }}</p>
+    </div>
+  </div>
+
+  <!-- Bill To Section -->
+  <div class="py-6">
+    <h4 class="font-semibold text-slate-800 mb-1">Bill To:</h4>
+    @if(customer().name) {
+      <p class="text-slate-600">{{ customer().name }}</p>
+      <p class="text-slate-600">{{ customer().address }}</p>
+      <p class="text-slate-600">{{ customer().email }}</p>
+    } @else {
+      <p class="text-slate-500 italic">No customer information provided.</p>
+    }
+  </div>
+
+  <!-- Items Table -->
+  <div class="w-full">
+    <div class="flow-root">
+      <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+          <table class="min-w-full divide-y divide-slate-200">
+            <thead>
+              <tr class="text-left text-sm font-semibold text-slate-900">
+                <th scope="col" class="py-3.5 pl-4 pr-3 sm:pl-0" [style.color]="accentColor()">Product</th>
+                <th scope="col" class="px-3 py-3.5" [style.color]="accentColor()">Qty</th>
+                <th scope="col" class="px-3 py-3.5" [style.color]="accentColor()">Price</th>
+                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0" [style.color]="accentColor()">Total</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              @if (orderItems().length === 0) {
+              <tr>
+                <td colspan="4" class="py-10 text-center text-slate-500">No items added to the order.</td>
+              </tr>
+              } @else { @for (item of orderItems(); track item.product.id; let even = $even) {
+              <tr [class]="even ? 'bg-slate-500/5' : ''">
+                <td class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:w-auto sm:max-w-none sm:pl-0">
+                  {{ item.product.name }}
+                  @if(item.product.details) {
+                    <p class="text-slate-500 font-normal">{{ item.product.details }}</p>
+                  }
+                  <dl class="font-normal lg:hidden">
+                    @if(item.product.details) {
+                      <dt class="sr-only">Details</dt>
+                      <dd class="mt-1 truncate text-slate-500">{{ item.product.details }}</dd>
+                    }
+                    <dt class="sr-only">Quantity</dt>
+                    <dd class="mt-1 truncate text-slate-700">Qty: {{ item.quantity }}</dd>
+                    <dt class="sr-only sm:hidden">Price</dt>
+                    <dd class="mt-1 truncate text-slate-500 sm:hidden">@ {{ item.price | currency }}</dd>
+                  </dl>
+                </td>
+                <td class="hidden px-3 py-4 text-sm text-slate-500 lg:table-cell">{{ item.quantity }}</td>
+                <td class="hidden px-3 py-4 text-sm text-slate-500 sm:table-cell">{{ item.price | currency }}</td>
+                <td class="py-4 pl-3 pr-4 text-right text-sm font-medium text-slate-900 sm:pr-0">{{ item.totalPrice | currency }}</td>
+              </tr>
+              }}
+            </tbody>
+            <tfoot>
+              <!-- Subtotal -->
+              <tr>
+                <th scope="row" colspan="3" class="hidden pl-4 pr-3 pt-4 text-right text-sm font-normal text-slate-500 sm:table-cell sm:pl-0">Subtotal</th>
+                <th scope="row" class="pl-6 pr-3 pt-4 text-left text-sm font-normal text-slate-500 sm:hidden">Subtotal</th>
+                <td class="pl-3 pr-4 pt-4 text-right text-sm text-slate-500 sm:pr-0">{{ subtotal() | currency }}</td>
+              </tr>
+              <!-- Discount -->
+               @if(discount() > 0) {
+                <tr>
+                    <th scope="row" colspan="3" class="hidden pl-4 pr-3 pt-2 text-right text-sm font-normal text-slate-500 sm:table-cell sm:pl-0">Discount</th>
+                    <th scope="row" class="pl-6 pr-3 pt-2 text-left text-sm font-normal text-slate-500 sm:hidden">Discount</th>
+                    <td class="pl-3 pr-4 pt-2 text-right text-sm text-red-500 sm:pr-0">-{{ discount() | currency }}</td>
+                </tr>
+                 <tr>
+                    <th scope="row" colspan="3" class="hidden pl-4 pr-3 pt-2 text-right text-sm font-semibold text-slate-700 sm:table-cell sm:pl-0 border-t border-slate-200">New Subtotal</th>
+                    <th scope="row" class="pl-6 pr-3 pt-2 text-left text-sm font-semibold text-slate-700 sm:hidden border-t border-slate-200">New Subtotal</th>
+                    <td class="pl-3 pr-4 pt-2 text-right text-sm font-semibold text-slate-700 sm:pr-0 border-t border-slate-200">{{ subtotalAfterDiscount() | currency }}</td>
+                </tr>
+               }
+              <!-- Tax -->
+              <tr>
+                <th scope="row" colspan="3" class="hidden pl-4 pr-3 pt-2 text-right text-sm font-normal text-slate-500 sm:table-cell sm:pl-0">Tax</th>
+                <th scope="row" class="pl-6 pr-3 pt-2 text-left text-sm font-normal text-slate-500 sm:hidden">Tax</th>
+                <td class="pl-3 pr-4 pt-2 text-right text-sm text-slate-500 sm:pr-0">{{ tax() | currency }}</td>
+              </tr>
+              <!-- Total -->
+              <tr>
+                <th scope="row" colspan="3" class="hidden pl-4 pr-3 pt-2 text-right text-sm font-semibold text-slate-900 sm:table-cell sm:pl-0">Total</th>
+                <th scope="row" class="pl-6 pr-3 pt-2 text-left text-sm font-semibold text-slate-900 sm:hidden">Total</th>
+                <td class="pl-3 pr-4 pt-2 text-right text-sm font-semibold text-slate-900 sm:pr-0" [style.color]="accentColor()">{{ total() | currency }}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer / Notes -->
+  <div class="mt-8 pt-6 border-t border-slate-200 text-xs text-slate-500">
+    <h4 class="font-semibold text-slate-600 mb-2">Technical Specifications & Notes:</h4>
+    <ul class="list-disc list-inside space-y-1">
+      <li>Resin Hardness: Keychains (Shore D 75-85, Rigid), Stickers (Shore A 50-70, Flexible).</li>
+      <li>Curing Cycle: Initial Set 24 hours, Full Hardness 7 Days.</li>
+      <li>Smart Tech: NTAG213/215 chips with embedded payment tokenization capabilities.</li>
+      <li>Lead Time: 7-14 Business Days.</li>
+    </ul>
+  </div>
+</div>

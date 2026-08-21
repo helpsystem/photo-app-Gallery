@@ -1,0 +1,5 @@
+{
+  "name": "Shebaco Invoice & Product Manager",
+  "description": "A modern, tech-focused invoicing and product management application with a glassmorphism UI, designed for the Shebaco brand. Features an interactive order builder and AI-powered tools using the Gemini API.",
+  "requestFramePermissions": []
+}

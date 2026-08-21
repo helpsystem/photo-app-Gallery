@@ -1,0 +1,33 @@
+
+<div class="bg-white text-slate-800 p-8 rounded-lg shadow-lg mt-4 page-break-before">
+  <div class="text-center mb-6">
+    <h2 class="text-xl font-bold text-slate-900">Shipping Label</h2>
+  </div>
+  <div class="grid grid-cols-2 gap-8">
+    <!-- Sender -->
+    <div class="border-r pr-8 border-dashed border-slate-300">
+      <h3 class="text-sm uppercase font-semibold text-slate-500 mb-2">From</h3>
+      <div class="text-slate-800 space-y-1">
+        <p class="font-bold">{{ sender().name }}</p>
+        <p>{{ sender().address }}</p>
+        <p>{{ sender().email }}</p>
+        <p>{{ sender().phone }}</p>
+      </div>
+    </div>
+    <!-- Receiver -->
+    <div>
+      <h3 class="text-sm uppercase font-semibold text-slate-500 mb-2">To</h3>
+       @if(receiver().name || receiver().address) {
+          <div class="text-slate-800 space-y-1">
+            <p class="font-bold">{{ receiver().name }}</p>
+            <p>{{ receiver().address }}</p>
+            <p>{{ receiver().email }}</p>
+          </div>
+        } @else {
+          <div class="h-24 border-2 border-dashed border-slate-300 rounded-md flex items-center justify-center">
+             <p class="text-slate-500 italic">Recipient Information</p>
+          </div>
+        }
+    </div>
+  </div>
+</div>

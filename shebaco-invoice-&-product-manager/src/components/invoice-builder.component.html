@@ -1,0 +1,163 @@
+
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-5.5rem)]">
+  <!-- Left Panel: Product Selection & AI Tools -->
+  <div class="p-6 border-r border-white/10 flex flex-col">
+    <div class="flex-shrink-0">
+      <h1 class="text-2xl font-bold text-white mb-4">Add Products to Order</h1>
+    </div>
+    
+    <!-- Product List -->
+    <div class="flex-grow overflow-y-auto pr-2 -mr-2 space-y-3">
+      @for (product of products(); track product.id) {
+      <div class="glass-card rounded-xl p-3 flex items-center gap-4 transition-all duration-300 hover:border-cyan-400/50">
+        <div class="w-12 h-12 bg-slate-900/50 rounded-lg flex items-center justify-center flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+        </div>
+        <div class="flex-grow">
+          <h3 class="font-semibold text-white text-sm">{{ product.name }}</h3>
+          <p class="text-xs text-slate-400">{{ product.category }}</p>
+        </div>
+        <div class="flex-shrink-0">
+           <button (click)="addToOrder(product, product.pricingTiers[0])" 
+              class="bg-cyan-500/20 text-cyan-300 px-3 py-1.5 rounded-lg text-xs font-semibold border border-cyan-500/30 hover:bg-cyan-500/40 transition-colors">
+              Add
+            </button>
+        </div>
+      </div>
+      }
+    </div>
+    
+    <!-- AI Market Check -->
+    <div class="mt-4 pt-4 border-t border-white/10 flex-shrink-0">
+        <h2 class="text-xl font-bold text-white mb-2"><span class="text-purple-400">Gemini</span> AI Market Check</h2>
+        <div class="glass-card rounded-xl p-3">
+            <p class="text-sm text-slate-400 mb-3">Select an order item to analyze its market price.</p>
+            @if(orderItems().length > 0) {
+                <div class="flex flex-wrap gap-2 mb-3">
+                    @for(item of orderItems(); track item.product.id) {
+                        <button (click)="selectProductForAI(item.product)" [class]="'px-3 py-1 text-sm rounded-md transition-colors ' + (selectedProductForAI()?.id === item.product.id ? 'bg-purple-500 text-white' : 'bg-slate-700/50 hover:bg-slate-600/50')">
+                            {{ item.product.name }}
+                        </button>
+                    }
+                </div>
+
+                @if(selectedProductForAI(); as selectedProduct) {
+                    <button (click)="checkMarketPrice()" [disabled]="marketCheckLoading()" class="bg-teal-500/30 text-teal-300 px-4 py-2 rounded-lg text-sm font-semibold border border-teal-500/40 hover:bg-teal-500/50 disabled:opacity-50 disabled:cursor-not-allowed w-full text-center">
+                       Check Price for "{{ selectedProduct.name }}"
+                    </button>
+                }
+
+                @if(marketCheckLoading()){
+                    <div class="mt-3 p-3 bg-slate-900/50 rounded-lg text-sm text-slate-400 animate-pulse">Asking Gemini...</div>
+                }
+
+                @if(marketCheckText()) {
+                    <div class="mt-3 p-3 bg-slate-900/50 rounded-lg text-sm text-slate-300 space-y-3">
+                        <p class="whitespace-pre-wrap">{{ marketCheckText() }}</p>
+                        @if(marketCheckSources().length > 0) {
+                            <div>
+                                <h4 class="text-xs font-semibold uppercase text-slate-400 mb-2">Sources</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    @for(source of marketCheckSources(); track $index) {
+                                        @if(source.web) {
+                                            <a [href]="source.web.uri" target="_blank" rel="noopener noreferrer" class="text-xs bg-teal-500/20 text-teal-300 px-2 py-1 rounded-md hover:bg-teal-500/40">{{ source.web.title || "Untitled Source" }}</a>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+
+            } @else {
+                <p class="text-sm text-slate-500 italic">Add products to the order to enable this tool.</p>
+            }
+        </div>
+    </div>
+  </div>
+
+  <!-- Right Panel: Order Summary & Invoice Preview -->
+  <div class="p-6 bg-slate-900/30 flex flex-col">
+    <div class="flex items-center justify-between mb-4 no-print flex-shrink-0">
+      <h2 class="text-2xl font-bold text-white">Finalize Invoice</h2>
+      <div class="flex items-center gap-2">
+        <button (click)="downloadPdf()" [disabled]="pdfLoading() || orderItems().length === 0" class="bg-blue-500/20 text-blue-300 px-4 py-2 rounded-lg text-sm font-semibold border border-blue-500/30 hover:bg-blue-500/40 disabled:opacity-50 disabled:cursor-not-allowed">Download PDF</button>
+        <button (click)="printInvoice()" [disabled]="orderItems().length === 0" class="bg-green-500/20 text-green-300 px-4 py-2 rounded-lg text-sm font-semibold border border-green-500/30 hover:bg-green-500/40 disabled:opacity-50 disabled:cursor-not-allowed">Print</button>
+      </div>
+    </div>
+    
+    <div class="space-y-4 no-print flex-shrink-0">
+        <!-- Current Order -->
+        <div class="glass-card p-4 rounded-xl">
+            <h3 class="font-semibold text-white mb-3">Current Order</h3>
+            @if (orderItems().length > 0) {
+                <div class="space-y-2 max-h-40 overflow-y-auto pr-2 -mr-2">
+                    @for(item of orderItems(); track item.product.id) {
+                        <div class="flex items-center gap-3 bg-slate-900/50 p-2 rounded-lg">
+                            <div class="flex-grow">
+                                <p class="text-sm font-medium text-white">{{ item.product.name }}</p>
+                                <p class="text-xs text-slate-400">{{ item.price | currency }} / item</p>
+                            </div>
+                            <input type="number" [value]="item.quantity" (input)="updateQuantity(item.product.id, $event.target.value)" class="w-16 bg-slate-900/70 border border-slate-700 rounded-md px-2 py-1 text-sm text-center">
+                            <p class="text-sm font-semibold text-white w-20 text-right">{{ item.totalPrice | currency }}</p>
+                            <button (click)="removeFromOrder(item.product.id)" class="text-red-500 hover:text-red-400 h-8 w-8 flex-shrink-0 flex items-center justify-center rounded-md bg-red-500/10 hover:bg-red-500/20">&#10005;</button>
+                        </div>
+                    }
+                </div>
+            } @else {
+                <p class="text-sm text-slate-500 italic text-center py-4">No items in the order yet.</p>
+            }
+        </div>
+        
+        <!-- Finalize Details -->
+        <div class="glass-card p-4 rounded-xl">
+            <h3 class="font-semibold text-white mb-3">Finalize Details</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div [formGroup]="customerForm" class="space-y-3">
+                     <input formControlName="name" type="text" placeholder="Customer Name" class="w-full bg-slate-900/70 border border-slate-700 rounded-lg px-3 py-2 text-sm placeholder:text-slate-500">
+                     <input formControlName="email" type="email" placeholder="Customer Email" class="w-full bg-slate-900/70 border border-slate-700 rounded-lg px-3 py-2 text-sm placeholder:text-slate-500">
+                     <input formControlName="address" type="text" placeholder="Customer Address" class="w-full bg-slate-900/70 border border-slate-700 rounded-lg px-3 py-2 text-sm placeholder:text-slate-500">
+                </div>
+                <div [formGroup]="discountForm" class="space-y-3">
+                    <div class="flex gap-2">
+                        <input formControlName="value" type="number" placeholder="Discount" class="w-full bg-slate-900/70 border border-slate-700 rounded-lg px-3 py-2 text-sm placeholder:text-slate-500">
+                        <select formControlName="type" class="bg-slate-900/70 border border-slate-700 rounded-lg px-3 py-2 text-sm">
+                          <option value="fixed">Fixed ($)</option>
+                          <option value="percentage">Percentage (%)</option>
+                        </select>
+                    </div>
+                    <div class="bg-slate-900/50 p-3 rounded-lg text-sm">
+                        <div class="flex justify-between text-slate-400"><span>Subtotal</span><span>{{ subtotal() | currency }}</span></div>
+                        @if(discountAmount() > 0) {
+                           <div class="flex justify-between text-slate-400"><span>Discount</span><span class="text-red-400">-{{ discountAmount() | currency }}</span></div>
+                        }
+                        <div class="flex justify-between text-slate-400"><span>Tax ({{taxRate()}}%)</span><span>{{ tax() | currency }}</span></div>
+                        <div class="flex justify-between text-white font-bold mt-2 pt-2 border-t border-slate-700"><span>Total</span><span>{{ total() | currency }}</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Invoice Preview -->
+    <div class="mt-4 flex-grow overflow-y-auto rounded-lg invoice-preview-container">
+      <div id="invoice-print-area" [class]="'paper-' + paperSize()">
+        <app-invoice 
+          [orderItems]="orderItems()"
+          [subtotal]="subtotal()"
+          [discount]="discountAmount()"
+          [subtotalAfterDiscount]="subtotalAfterDiscount()"
+          [tax]="tax()"
+          [total]="total()"
+          [customer]="customer()">
+        </app-invoice>
+        <app-shipping-label 
+          [sender]="companyInfo()" 
+          [receiver]="customer()">
+        </app-shipping-label>
+      </div>
+    </div>
+
+  </div>
+</div>
